@@ -10,57 +10,97 @@ credentials.host="ids";
 
 var connection = mysql.createConnection(credentials);
 
+tables = ['till_buttons', 'supply', 'transactions'];
+tableIndex = 0;
+
+till_buttonsCreate = "CREATE TABLE IF NOT EXISTS till_buttons (buttonID int primary key, `left` INT, `top` INT, `width` INT, label TEXT, invID INT);";
+supplyCreate = "CREATE TABLE IF NOT EXISTS supply (itemID INT PRIMARY KEY, itemName TEXT, price DOUBLE(5,2));";
+transactionsCreate = "CREATE TABLE IF NOT EXISTS transactions (transactionID INT PRIMARY KEY, quantity INT)";
+createTableCommands = [till_buttonsCreate, supplyCreate, transactionsCreate];
+
+//datafiles
+dataFiles = ['buttons.txt', 'items.txt', 'DONTLOADFILE'];
+
 useDB(db);
 
 function useDB(db) {
-    str = "USE " + db + ";";
-    connection.query(str , function(err) {
-        if (err) {
-            console.log("Problems with MySQL: "+err);
-            connection.end();
-        }
-        else {
-            console.log("Use DB: Success");
-            createTable();
-        }
-    });
+  str = "USE " + db + ";";
+  connection.query(str , function(err) {
+    if (err) {
+      console.log("Problems with MySQL: "+err);
+      connection.end();
+    }
+    else {
+      console.log("Use DB: Success");
+      createTable(tableIndex);
+    }
+  });
 }
 
-function createTable() {
-    connection.query("CREATE TABLE IF NOT EXISTS till_buttons (buttonID int primary key, `left` INT, `top` INT, `width` INT, label TEXT, invID INT);", function(err) {
-        if(err) {
-            console.log("Problems with MySQL: "+err);
-            connection.end();
-        }
-        else {
-            console.log("createTable: Success");
-            truncate();
-        }
-    });
+function createTable(tableIndex) {
+  connection.query(createTableCommands[tableIndex], function(err) {
+    if(err) {
+      console.log("Problems with MySQL: "+err);
+      connection.end();
+    }
+    else {
+      console.log("createTable: Success");
+      truncate(tableIndex);
+    }
+  });
 }
 
-function truncate() {
-    connection.query("TRUNCATE till_buttons;", function(err) {
-        if(err) {
-            console.log("Problems with MySQL: "+err);
-            connection.end();
-        }
-        else {
-            console.log("Truncate: Success");
-            loadDB();
-        }
-    });
+function truncate(tableIndex) {
+  connection.query("TRUNCATE " + tables[tableIndex] + ";", function(err) {
+    if(err) {
+      console.log("Problems with MySQL: "+err);
+      connection.end();
+    }
+    else {
+      console.log("Truncate: Success");
+      loadDataFiles(tableIndex);
+    }
+  });
 }
 
-function loadDB() {
-    connection.query("LOAD DATA LOCAL INFILE 'resources/data.txt' INTO TABLE till_buttons;", function(err){
-        if(err) {
-            console.log("Problems with MySQL: "+err);
-            connection.end();
+function loadDataFiles(tableIndex) {
+  if(dataFiles[tableIndex] == 'DONTLOADFILE') {
+    connection.end();
+  }
+  else {
+  //  fileName = "\'" + dataFiles
+    connection.query("LOAD DATA LOCAL INFILE 'resources/" + dataFiles[tableIndex] + "' INTO TABLE " + tables[tableIndex] + ";", function(err) {
+      if(err) {
+        console.log("Problems with MySQL: "+err);
+        connection.end();
+      }
+      else {
+        console.log("Load DB: Success");
+        if(tableIndex < tables.length - 1) {
+          tableIndex ++;
+          createTable(tableIndex);
         }
         else {
-            console.log("Load DB: Success");
-            connection.end();
+          connection.end();
         }
+      }
     });
+  }
+}
+
+function loadInventory() {
+  sql = "CREATE TABLE IF NOT EXISTS supply (itemID INT PRIMARY KEY, itemName TEXT, price DOUBLE(5,2));";
+  createTable(sql, 'supply');
+
+  connection.query("LOAD DATA LOCAL INFILE 'resources/buttons.txt' INTO TABLE till_buttons;", function(err){
+    if(err) {
+      console.log("Problems with MySQL: "+err);
+      connection.end();
+    }
+    else {
+      console.log("Load DB: Success");
+      //
+    }
+  });
+
 }
