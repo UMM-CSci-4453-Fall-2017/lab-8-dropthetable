@@ -1,4 +1,4 @@
-0	apple	2.50
+0	apple	1.00
 1	hotdog	3.00
 2	hamburger	5.00
 3	bannana	1.00
