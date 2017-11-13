@@ -16,7 +16,7 @@ tableIndex = 0;
 //FOREIGN KEY (itemID) REFERENCES supply(itemID)
 supplyCreate = "CREATE TABLE IF NOT EXISTS supply (itemID INT PRIMARY KEY, itemName TEXT, price DOUBLE(5,2));";
 till_buttonsCreate = "CREATE TABLE IF NOT EXISTS till_buttons (buttonID int primary key, `left` INT, `top` INT, `width` INT, label TEXT, itemID INT);";
-transactionsCreate = "CREATE TABLE IF NOT EXISTS transactions (itemID INT, quantity INT, totalPrice INT)";
+transactionsCreate = "CREATE TABLE IF NOT EXISTS transactions (itemID INT UNIQUE, quantity INT, totalPrice INT)";
 createTableCommands = [supplyCreate, till_buttonsCreate, transactionsCreate];
 
 //datafiles
