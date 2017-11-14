@@ -5,16 +5,18 @@ angular.module('buttons',[])
 
 function ButtonCtrl($scope,buttonApi){
   $scope.buttons=[]; //Initially all was still
+  $scope.priceList=[];
   $scope.errorMessage='';
   $scope.isLoading=isLoading;
   $scope.refreshButtons=refreshButtons;
   $scope.buttonClick=buttonClick;
   //$scope.totalPrice=0;
-//$scope.totalPrice=localStorage.getItem("TotalPrice");
+  //$scope.totalPrice=localStorage.getItem("TotalPrice");
   $scope.totalPrice=0;
   var price = 0;
   var loading = false;
   var TotalPrice = 0;
+  var priceList = [];
 
   function isLoading(){
     return loading;
@@ -50,13 +52,22 @@ function ButtonCtrl($scope,buttonApi){
         TotalPrice += data[i].totalPrice;
       }
       $scope.totalPrice = TotalPrice;
-      console.log("Valueis now "+$scope.totalPrice);
-      //localStorage.setItem("TotalPrice", TotalPrice);
+      $scope.priceList = data;
       TotalPrice = 0;
       loading=false;
     })
     .error(function(){$scope.errorMessage="Unable to get transactions table";});
   }
+
+  function updatePriceList(){
+    var table = document.getElementById("priceList");
+    var row = table.insertRow(1);
+    row.insertCell(0).innerHTML = "Item";
+    row.insertCell(1).innerHTML = "Quantity";
+    row.insertCell(2).innerHTML = "sss";
+
+  };
+//updatePriceList();
   getTransaction();
   refreshButtons();  //make sure the buttons are loaded
 }
