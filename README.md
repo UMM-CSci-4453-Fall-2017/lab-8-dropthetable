@@ -1,11 +1,28 @@
 # Lab8
+
+## Running Server   
+To run the server, run the `runServer.sh`. This script takes in one argument, database name, which is the database you would like to use on MariaDB. This script assumes that the location of your credentials (to log onto the database), is named `credentials.json` and is located in `lab-8-dropthetable`. The script will also assume that there will be a directory `lab-8-dropthetable/resources/` that contains a file `buttons.txt` which will contain a tab separated list of the buttons.
+The format of `buttons.txt` will be the following fields in order.   
+
+| Field    | Type    | Null | Key | Default | Extra |
+|----------|---------|------|-----|---------|------:|
+| buttonID | int(11) | NO   | PRI | NULL    |       |
+| left     | int(11) | YES  |     | NULL    |       |
+| top      | int(11) | YES  |     | NULL    |       |
+| width    | int(11) | YES  |     | NULL    |       |
+| label    | text    | YES  |     | NULL    |       |
+| invID    | int(11) | YES  |     | NULL    |      ||
+
+`runServer` will call a script, `loadData.js` that will load `buttons.txt` into the given database, retrieve the records, using the script `getButtons.js` from the populated database to start the server, which is called from the script, `express.js`.  
+
+## < /Running Server >
 Be sure to get enough REST
 
 Now you are going to expand upon your work from the previous lab.  This is going to require the following components:
 
 * A REST Interface (described in light detail below)
 * An angular template (with javascript) to produce the web-page outputs
-* A good understanding of how to manipulate tables 
+* A good understanding of how to manipulate tables
 
 ## The REST interface
 
@@ -169,7 +186,7 @@ For this week's lab I would like you to add the following functionality:
 * Add a list of some sort to your cash register to keep track of items that are part of the current transaction
 * Add a total to the list (you can do this purely in javascript if you like)
 * Add the ability to remove an item from your list by clicking on it.
- 
+
 You can look at my [online example](http://146.57.34.125:1337/listTest.html), to see what I'd like you to aim for.
 
 If you totally nail this you can begin preparing for next week by adding the ability to
@@ -178,5 +195,3 @@ If you totally nail this you can begin preparing for next week by adding the abi
 * create a printable receipt (a javascript popup will suffice),
 * create a "SALE" button, the infrastructure to support it, and implement the functionality,
 * create a "VOID" button and implement the functionality.
- 
-
