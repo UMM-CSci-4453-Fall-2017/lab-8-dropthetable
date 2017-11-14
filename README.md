@@ -73,6 +73,8 @@ There are four API end points that have been implemented in an effort to satisfy
 * **GetTransaction:** `/transactions`. This is called after the client side gets confirmation that the database has been successfully updated. It tells the server side to send all records int the `transactions` table.  
 * **DeleteItem:** `/deleteItem?id=`. This is called when the employee clicks on the price list table on the front end. This triggers the front end to use the deleteItem API request using the item-id of the item in the priceList table. This value gets passed to the server side, where the item is deleted from the `transactions` table.
 
+## < /API >
+
 Be sure to get enough REST
 
 Now you are going to expand upon your work from the previous lab.  This is going to require the following components:
