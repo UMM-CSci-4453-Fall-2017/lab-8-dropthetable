@@ -32,7 +32,17 @@ app.get("/click",function(req,res){
 app.get("/transactions", function(req, res){
   GetButtons.getTotalPrice(commandInput)
   .then(function(result){
+    console.log(result);
     res.send(result);
+  });
+});
+
+app.get("/deleteItem", function(req, res) {
+  var id = req.param('id');
+  console.log("ID: " + id);
+  GetButtons.deleteRow(commandInput, id)
+  .then(function() {
+    res.send();
   });
 });
 
