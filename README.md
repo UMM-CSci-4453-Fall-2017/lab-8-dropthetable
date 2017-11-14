@@ -1,4 +1,7 @@
 # Lab8
+The following ER diagram shows the structure of our entire project: Process, API, and Databases.  
+
+![alt text](resources/erd.png)
 
 ## Running Server   
 To run the server, run the `runServer.sh`. This script takes in one argument, database name, which is the database you would like to use on MariaDB. This script assumes that the location of your credentials (to log onto the database), is named `credentials.json` and is located in `lab-8-dropthetable`.
@@ -29,7 +32,10 @@ To run the server, run the `runServer.sh`. This script takes in one argument, da
 
 `runServer.sh` will call a script, `loadData.js` that will load `buttons.txt` and `items.txt` into the given database, retrieve the records, using the script `getButtons.js` from the populated database to start the server, which is called from the script, `express.js`.  
 
-## < /Running Server >
+## Database Structure  
+
+
+
 Be sure to get enough REST
 
 Now you are going to expand upon your work from the previous lab.  This is going to require the following components:
