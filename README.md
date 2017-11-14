@@ -1,5 +1,9 @@
+**Members:**
+* Shawn Saliyev
+* Leonid Scott
+
 # Lab8
-The following ER diagram shows the structure of our entire project: Process, API, and Databases.  
+The following ER diagram shows the structure of our entire project: Process, API, and Databases.
 
 ![alt text](resources/erd.png)
 
@@ -33,8 +37,40 @@ To run the server, run the `runServer.sh`. This script takes in one argument, da
 `runServer.sh` will call a script, `loadData.js` that will load `buttons.txt` and `items.txt` into the given database, retrieve the records, using the script `getButtons.js` from the populated database to start the server, which is called from the script, `express.js`.  
 
 ## Database Structure  
+Our database structure consists of three databases: supply, till_buttons, and transactions. supply contains the master information about items, their name, and price. It has the following structure:
 
+| Field    | Type        | Null | Key | Default | Extra |
+|----------|-------------|------|-----|---------|-------|
+| itemID   | int(11)     | NO   | PRI | NULL    |       |
+| itemName | text        | YES  |     | NULL    |       |
+| price    | double(5,2) | YES  |     | NULL    |      ||
 
+`till_buttons` is populated from the `buttons.txt` file, and has a field itemID, that directly corresponds to the `supply` table. It has the following structure:  
+
+| Field    | Type    | Null | Key | Default | Extra |
+|----------|---------|------|-----|---------|------:|
+| buttonID | int(11) | NO   | PRI | NULL    |       |
+| left     | int(11) | YES  |     | NULL    |       |
+| top      | int(11) | YES  |     | NULL    |       |
+| width    | int(11) | YES  |     | NULL    |       |
+| label    | text    | YES  |     | NULL    |       |
+| invID    | int(11) | YES  |     | NULL    |       |
+| itemID   | int(11) | YES  |     | NULL    |      ||
+
+The `transactions` table is created from `loadData.js`, but it does not have any records until an employee, enters them on the user interface. The transactions table keeps track of what items are on the price list, and the employee can add, and delete things indirectly into this table. It shares a field, **itemID**, with `supply`. This field corresponds to a primary key in `supply`. The `transactions` table has the following form:  
+
+| Field    | Type    | Null | Key  | Default | Extra |
+|----------|---------|------|------|---------|------:|
+|itemID    | int(11) | YES  |UNIQUE| NULL    |       |
+|quantity  | int(11) | YES  |      | NULL    |       |
+|totalPrice| int(11) | YES  |      | NULL    |      ||  
+
+## API  
+There are four API end points that have been implemented in an effort to satisfy the requirements for the lab 8 REST API. The following are listed.
+* **GetButtons:** `/buttons`. Gets buttons from the `till_buttons` table. This is called whenever the page is reloaded.
+* **ClickButton:** `/click?id=`. When a button is clicked, it passes an `itemID`. This id is sent via the API to `express.js` which in turn, uses the API to update the `transactions` table. If the `transactions` table does not have a record with the passed in `itemID`, it will fetch the itemName, and individual price from the `supply` table. If the table does have a record with `itemID` in it, it will update the quantity and totalPrice for that item.  
+* **GetTransaction:** `/transactions`. This is called after the client side gets confirmation that the database has been successfully updated. It tells the server side to send all records int the `transactions` table.  
+* **DeleteItem:** `/deleteItem?id=`. This is called when the employee clicks on the price list table on the front end. This triggers the front end to use the deleteItem API request using the item-id of the item in the priceList table. This value gets passed to the server side, where the item is deleted from the `transactions` table.
 
 Be sure to get enough REST
 
