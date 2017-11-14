@@ -10,13 +10,10 @@ function ButtonCtrl($scope,buttonApi){
   $scope.isLoading=isLoading;
   $scope.refreshButtons=refreshButtons;
   $scope.buttonClick=buttonClick;
-  //$scope.totalPrice=0;
-  //$scope.totalPrice=localStorage.getItem("TotalPrice");
   $scope.totalPrice=0;
   var price = 0;
   var loading = false;
   var TotalPrice = 0;
-  var priceList = [];
 
   function isLoading(){
     return loading;
@@ -59,15 +56,6 @@ function ButtonCtrl($scope,buttonApi){
     .error(function(){$scope.errorMessage="Unable to get transactions table";});
   }
 
-  function updatePriceList(){
-    var table = document.getElementById("priceList");
-    var row = table.insertRow(1);
-    row.insertCell(0).innerHTML = "Item";
-    row.insertCell(1).innerHTML = "Quantity";
-    row.insertCell(2).innerHTML = "sss";
-
-  };
-//updatePriceList();
   getTransaction();
   refreshButtons();  //make sure the buttons are loaded
 }
