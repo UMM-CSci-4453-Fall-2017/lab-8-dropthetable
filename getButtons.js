@@ -74,7 +74,13 @@ var checkTransaction = function(itemID, price, db){
 
 
 var getTotalPrice = function(db){
-  var sql = "select (select itemName from "+db+".supply where "+db+".supply.itemID = "+db+".transactions.itemID) as itemName, quantity, totalPrice from "+db+".transactions;";
+  var sql = "select itemID, (select itemName from "+db+".supply where "+db+".supply.itemID = "+db+".transactions.itemID) as itemName, quantity, totalPrice from "+db+".transactions;";
+  return query(mysql.format(sql));
+}
+
+var deleteRow = function(db, id) {
+  var sql = 'DELETE FROM ' + db + '.transactions WHERE itemID = ' + id + ';';
+  console.log(sql);
   return query(mysql.format(sql));
 }
 
@@ -83,3 +89,4 @@ exports.receivedButtons = receivedButtons;
 exports.releaseButtons = endPool;
 exports.click = checkSupply;
 exports.getTotalPrice = getTotalPrice;
+exports.deleteRow = deleteRow;
