@@ -1,19 +1,33 @@
 # Lab8
 
 ## Running Server   
-To run the server, run the `runServer.sh`. This script takes in one argument, database name, which is the database you would like to use on MariaDB. This script assumes that the location of your credentials (to log onto the database), is named `credentials.json` and is located in `lab-8-dropthetable`. The script will also assume that there will be a directory `lab-8-dropthetable/resources/` that contains a file `buttons.txt` which will contain a tab separated list of the buttons.
-The format of `buttons.txt` will be the following fields in order.   
+To run the server, run the `runServer.sh`. This script takes in one argument, database name, which is the database you would like to use on MariaDB. This script assumes that the location of your credentials (to log onto the database), is named `credentials.json` and is located in `lab-8-dropthetable`.
 
-| Field    | Type    | Null | Key | Default | Extra |
-|----------|---------|------|-----|---------|------:|
-| buttonID | int(11) | NO   | PRI | NULL    |       |
-| left     | int(11) | YES  |     | NULL    |       |
-| top      | int(11) | YES  |     | NULL    |       |
-| width    | int(11) | YES  |     | NULL    |       |
-| label    | text    | YES  |     | NULL    |       |
-| invID    | int(11) | YES  |     | NULL    |      ||
 
-`runServer` will call a script, `loadData.js` that will load `buttons.txt` into the given database, retrieve the records, using the script `getButtons.js` from the populated database to start the server, which is called from the script, `express.js`.  
+ The script will also assume that there will be a directory `lab-8-dropthetable/resources/` that should have two text files: `items.txt` and `buttons.txt`.
+
+ The `buttons.txt` is used for `till_buttons` table which has the following structure:
+
+  | Field    | Type    | Null | Key | Default | Extra |
+  |----------|---------|------|-----|---------|------:|
+  | buttonID | int(11) | NO   | PRI | NULL    |       |
+  | left     | int(11) | YES  |     | NULL    |       |
+  | top      | int(11) | YES  |     | NULL    |       |
+  | width    | int(11) | YES  |     | NULL    |       |
+  | label    | text    | YES  |     | NULL    |       |
+  | invID    | int(11) | YES  |     | NULL    |      ||
+
+  The `items.txt` is used for `supply` table which has the following structure:
+
+
+| Field    | Type        | Null | Key | Default | Extra |
+|----------|-------------|------|-----|---------|-------|
+| itemID   | int(11)     | NO   | PRI | NULL    |       |
+| itemName | text        | YES  |     | NULL    |       |
+| price    | double(5,2) | YES  |     | NULL    |      ||
+
+
+`runServer.sh` will call a script, `loadData.js` that will load `buttons.txt` and `items.txt` into the given database, retrieve the records, using the script `getButtons.js` from the populated database to start the server, which is called from the script, `express.js`.  
 
 ## < /Running Server >
 Be sure to get enough REST
