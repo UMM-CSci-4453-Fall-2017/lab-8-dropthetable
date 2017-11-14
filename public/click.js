@@ -10,6 +10,7 @@ function ButtonCtrl($scope,buttonApi){
   $scope.isLoading=isLoading;
   $scope.refreshButtons=refreshButtons;
   $scope.buttonClick=buttonClick;
+  $scope.deleteItem=deleteItem;
   $scope.totalPrice=0;
   var price = 0;
   var loading = false;
@@ -31,9 +32,20 @@ function ButtonCtrl($scope,buttonApi){
       loading=false;
     });
   }
+
   function buttonClick($event){
     $scope.errorMessage='';
     buttonApi.clickButton($event.target.id)
+    .success(function(){
+      getTransaction()
+    })
+    .error(function(){$scope.errorMessage="Unable click";});
+  }
+
+  function deleteItem($event){
+    console.log("id: " + $event.target.id);
+    $scope.errorMessage='';
+    buttonApi.deleteItem($event.target.id)
     .success(function(){
       getTransaction()
     })
@@ -55,21 +67,23 @@ function ButtonCtrl($scope,buttonApi){
     })
     .error(function(){$scope.errorMessage="Unable to get transactions table";});
   }
-
   getTransaction();
   refreshButtons();  //make sure the buttons are loaded
 }
 
 function buttonApi($http,apiUrl){
   return{
+    deleteItem: function(id){
+      var url = apiUrl + '/deleteItem?id='+id;
+      return $http.get(url);
+    },
     getButtons: function(){
       var url = apiUrl + '/buttons';
       return $http.get(url);
     },
     clickButton: function(id){
       var url = apiUrl+'/click?id='+id;
-      console.log("Attempting with "+url);
-      return $http.get(url); // Easy enough to do this way
+      return $http.get(url);
     },
     getTransaction: function(){
       var url = apiUrl+'/transactions';
