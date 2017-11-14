@@ -32,6 +32,10 @@
     right: 100px;
   }
 
+   .tablebody tr:hover{
+    background-color: #FF645D;
+  }
+
 
   </style>
 </head>
@@ -43,7 +47,7 @@
       <div ng-repeat="button in buttons">
         <div style="position:absolute;left:{{button.left}}px;top:{{button.top}}px"><button id="{{button.buttonID}}" ng-click="buttonClick($event,'button.buttonID');" >{{button.label}}</button></div>
       </div>
-      <div style="position:fixed;height:50px;bottom:0px;left:0px;right:0px;margin-bottom:0px"} ng-show="errorMessage != ''">
+      <div style="position:fixed;height:50p>x;bottom:0px;left:0px;right:0px;margin-bottom:0px"} ng-show="errorMessage != ''">
         <div class="col-sm-12">
           <h3 class="text-danger">{{errorMessage}}</h3>
         </div>
@@ -54,12 +58,14 @@
           <th>Quantity</th>
           <th>Price</th>
         </tr>
+        <tbody class="tablebody">
         <tr ng-repeat="row in priceList">
-          <td>{{ row.itemName }}</td>
-          <td>{{ row.quantity }}</td>
-          <td>{{ row.totalPrice }}</td>
+          <td id="{{row.itemID}}" ng-click="deleteItem($event,'row.itemID')">{{ row.itemName }}</td>
+          <td id="{{row.itemID}}" ng-click="deleteItem($event,'row.itemID')">{{ row.quantity }}</td>
+          <td id="{{row.itemID}}" ng-click="deleteItem($event,'row.itemID')">{{ row.totalPrice }}</td>
         </tr>
-        <tr>
+      </tbody>
+        <tr style='background-color: #94ffae'>
           <td colspan="3">Total: {{totalPrice}}</td>
         </tr>
       </table>
