@@ -22,7 +22,8 @@ To run the server, run the `runServer.sh`. This script takes in one argument, da
   | top      | int(11) | YES  |     | NULL    |       |
   | width    | int(11) | YES  |     | NULL    |       |
   | label    | text    | YES  |     | NULL    |       |
-  | invID    | int(11) | YES  |     | NULL    |      ||
+  | invID    | int(11) | YES  |     | NULL    |       |
+  | itemID   | int(11) | YES  |     | NULL    |      ||
 
   The `items.txt` is used for `supply` table which has the following structure:
 
